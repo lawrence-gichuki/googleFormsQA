@@ -1,0 +1,37 @@
+SELECT patient_id,mr_no,full_name::VARCHAR, patient_phone, reg_date, reg_time, status, visit_type_name, dept_id,dept_name, doctor_name, center_id 
+FROM custom_patient_visit_details 
+WHERE dept_id NOT IN ('DEP0005', 'DEP_PHA','DEP_LAB','DEP_RAD','DEP0051') AND doctor_name IS NOT NULL and  reg_date = NOW()::date and center_id IN (1,7);
+
+DROP TABLE visit_details_q_and_a;
+CREATE TABLE visit_details_q_and_a(
+patient_id VARCHAR(15) PRIMARY KEY,mr_no VARCHAR(15) NOT NULL,
+full_name VARCHAR(50) NOT NULL, patient_phone VARCHAR(15) NOT NULL, 
+reg_date DATE NOT NULL, reg_time TIMESTAMP, status INT NOT NULL DEFAULT 0, visit_type_name VARCHAR(5) NOT NULL, dept_id VARCHAR(25) NOT NULL,dept_name VARCHAR(50) NOT NULL, doctor_name VARCHAR(50) NOT NULL, center_id INT NOT NULL);
+
+
+CREATE TABLE questionanaire_link(url VARCHAR(150) NOT NULL);
+
+
+SELECT patient_id,mr_no,full_name, patient_phone,reg_date, reg_time, status, visit_type_name, dept_id,dept_name, doctor_name, center_id
+FROM visit_details_q_and_a;
+
+
+SELECT patient_id,mr_no,full_name, patient_phone,reg_date, reg_time, status, visit_type_name, dept_id,dept_name, doctor_name, center_id
+FROM visit_details_q_and_a
+
+SELECT url FROM questionanaire_link;
+
+DELETE FROM questionanaire_link;
+INSERT INTO questionanaire_link VALUES('Thank you for visiting The Karen Hospital. Kindly share your feedback through https://forms.gle/baQWnENBahrvZboU9 - Reach us on +254714830449');
+
+
+SELECT v.patient_phone,m.url FROM visit_details_q_and_a v, questionanaire_link m WHERE v.status = 0;
+
+SELECT * FROM outmessages
+
+
+DROP VIEW  q_sms_view;
+CREATE VIEW q_sms_view AS
+SELECT REPLACE(REPLACE(REPLACE(REPLACE(v.patient_phone,'+',''),'-',''),' ',''),UPPER('o'),'0')::VARCHAR as patient_phone,m.url::VARCHAR FROM visit_details_q_and_a v, questionanaire_link m WHERE v.status = 0;
+
+SELECT * FROM q_sms_view;

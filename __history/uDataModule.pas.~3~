@@ -1,0 +1,44 @@
+unit uDataModule;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet;
+
+type
+  TDataModule1 = class(TDataModule)
+    FDConnection1: TFDConnection;
+    FDQueryInsta: TFDQuery;
+    FDQueryInstacenter_id: TIntegerField;
+    FDQueryInstamr_no: TWideStringField;
+    FDQueryInstafull_name: TWideMemoField;
+    FDQueryInstareg_date: TDateField;
+    FDQueryInstareg_time: TTimeField;
+    FDQueryInstastatus: TWideStringField;
+    FDQueryInstavisit_type_name: TWideStringField;
+    FDQueryInstapatient_id: TWideStringField;
+    FDQueryInstadept_id: TWideStringField;
+    FDQueryInstadept_name: TWideStringField;
+    FDQueryInstadoctor_name: TWideStringField;
+    FDQueryInstapatient_phone: TWideStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule1: TDataModule1;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.
